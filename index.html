@@ -57,14 +57,33 @@
   }
   .disclaimer strong { display: block; margin-bottom: 4px; }
   .actions { margin-top: 12px; }
+  .privacy { margin-top: 16px; }
+  .privacy summary { color: var(--accent); cursor: pointer; font-weight: 600; }
+  .privacy p, .privacy ul { margin-top: 8px; }
+  .privacy ul { padding-left: 20px; }
+  .age-gate { max-width: 520px; margin: 48px auto; }
+  .age-confirmation { display: flex; align-items: flex-start; gap: 8px; margin-top: 14px; }
+  .age-confirmation input { width: auto; margin-top: 4px; }
+  button:disabled { cursor: not-allowed; opacity: .6; }
   @media (max-width: 480px) { .row { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
 <h1>Instrument Nutrițional General</h1>
-<p class="subtitle">Calcule orientative și jurnal alimentar — datele rămân în browserul tău.</p>
+<p class="subtitle">Estimări orientative și jurnal alimentar pentru adulți.</p>
 
+<section class="card age-gate" id="ageGate">
+  <h2>Acces pentru adulți</h2>
+  <p>Acest instrument este destinat persoanelor cu vârsta de cel puțin 18 ani.</p>
+  <label class="age-confirmation" for="adultConfirm">
+    <input type="checkbox" id="adultConfirm">
+    <span>Confirm că am cel puțin 18 ani.</span>
+  </label>
+  <button id="continueBtn" disabled>Continuă</button>
+</section>
+
+<main id="appContent" hidden>
 <!-- 1. Date personale -->
 <section class="card">
   <h2>1. Date personale</h2>
@@ -77,8 +96,8 @@
       </select>
     </div>
     <div>
-      <label for="age">Vârstă (ani)</label>
-      <input type="number" id="age" min="14" max="100" placeholder="ex. 30">
+      <label for="age">Vârstă (ani, 18–100)</label>
+      <input type="number" id="age" min="18" max="100" step="1" placeholder="ex. 30">
     </div>
   </div>
   <div class="row">
@@ -125,6 +144,7 @@
   </div>
   <button id="addBtn">Adaugă</button>
   <button id="exportBtn" class="secondary">Export JSON</button>
+  <button id="clearBtn" class="secondary">Șterge tot jurnalul</button>
   <label for="importFile" style="margin-top:12px;">Import JSON</label>
   <input type="file" id="importFile" accept=".json">
 
@@ -140,21 +160,51 @@
   <p class="empty" id="emptyMsg">Jurnalul este gol.</p>
 </section>
 
-<!-- Disclaimer -->
 <div class="disclaimer">
   <strong>Notă importantă</strong>
-  Acest instrument oferă doar informații generale de educație nutrițională și
-  estimări orientative. Nu constituie consult dietetic, plan alimentar
-  personalizat sau sfat medical și nu înlocuiește consultul unui dietetician
-  autorizat conform Legii nr. 256/2015. Pentru nevoi individuale, adresați-vă
-  unui specialist autorizat.
+  Rezultatele sunt estimări automate bazate pe formule generale și pe datele
+  introduse. Nu reprezintă o evaluare realizată de un dietetician, un diagnostic,
+  sfat medical sau un plan alimentar adaptat unei afecțiuni și nu înlocuiesc
+  consultul unui dietetician autorizat conform Legii nr. 256/2015. IMC-ul este
+  un indicator orientativ, nu un diagnostic. Pentru recomandări individuale,
+  consultați un specialist autorizat.
 </div>
+
+<details class="privacy">
+  <summary>Confidențialitate și datele salvate</summary>
+  <p>
+    În această versiune, datele jurnalului sunt salvate în spațiul local al
+    browserului pe dispozitivul tău. Codul aplicației nu trimite jurnalul,
+    vârsta, înălțimea sau greutatea către un server; valorile folosite la
+    calcul nu sunt salvate de aplicație. Jurnalul rămâne în browser până îl
+    ștergi sau până când datele site-ului sunt eliminate din browser.
+  </p>
+  <ul>
+    <li>Exportul descarcă un fișier JSON pe care îl gestionezi tu; ștergerea jurnalului din aplicație nu șterge copiile exportate.</li>
+    <li>Importul citește fișierul selectat în browser și înlocuiește jurnalul curent.</li>
+    <li>Alte persoane care folosesc același profil de browser pot avea acces la jurnal.</li>
+    <li>Furnizorul de găzduire poate prelucra date tehnice ale conexiunii; verifică informarea acestuia.</li>
+  </ul>
+  <p><strong>Operatorul aplicației:</strong> [de completat înainte de publicare]</p>
+  <p><strong>Contact pentru confidențialitate:</strong> [de completat înainte de publicare]</p>
+  <p>
+    Înainte de publicare, completați identitatea și datele de contact ale
+    operatorului și verificați temeiul juridic, informațiile despre găzduire,
+    durata păstrării și drepturile aplicabile împreună cu un specialist.
+  </p>
+</details>
+</main>
 
 <script>
 (function () {
   'use strict';
 
   const STORAGE_KEY = 'nutrition_journal_v1';
+  const MAX_ENTRIES = 500;
+  const MAX_NAME_LENGTH = 100;
+  const MAX_KCAL = 10000;
+  const MAX_IMPORT_BYTES = 1024 * 1024;
+  const ACTIVITY_LEVELS = new Set(['1.2', '1.375', '1.55', '1.725', '1.9']);
 
   /* ---------- Utilitare ---------- */
   const $ = (id) => document.getElementById(id);
@@ -171,10 +221,24 @@
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       journal = raw ? JSON.parse(raw) : [];
-      if (!Array.isArray(journal)) journal = [];
+      if (!Array.isArray(journal)) throw new Error('Format invalid');
+      journal = journal.filter(isValidEntry).slice(0, MAX_ENTRIES);
     } catch (e) {
       journal = [];
+      alert('Jurnalul salvat nu a putut fi citit și a fost încărcat ca jurnal gol.');
     }
+  }
+
+  function isValidEntry(item) {
+    return Boolean(
+      item &&
+      typeof item.name === 'string' &&
+      item.name.trim().length > 0 &&
+      item.name.trim().length <= MAX_NAME_LENGTH &&
+      Number.isFinite(item.kcal) &&
+      item.kcal >= 0 &&
+      item.kcal <= MAX_KCAL
+    );
   }
 
   function saveJournal() {
@@ -224,7 +288,18 @@
     const name = $('foodName').value.trim();
     const kcal = num($('foodKcal').value);
     if (!name) { alert('Introdu numele alimentului.'); return; }
-    if (kcal === null || kcal < 0) { alert('Introdu un număr valid de calorii.'); return; }
+    if (name.length > MAX_NAME_LENGTH) {
+      alert('Numele alimentului nu poate depăși 100 de caractere.');
+      return;
+    }
+    if (kcal === null || kcal < 0 || kcal > MAX_KCAL) {
+      alert('Introdu un număr de calorii între 0 și 10.000.');
+      return;
+    }
+    if (journal.length >= MAX_ENTRIES) {
+      alert('Jurnalul poate conține cel mult 500 de intrări.');
+      return;
+    }
     journal.push({ name, kcal });
     saveJournal();
     renderJournal();
@@ -236,6 +311,18 @@
   function removeEntry(idx) {
     journal.splice(idx, 1);
     saveJournal();
+    renderJournal();
+  }
+
+  function clearJournal() {
+    if (!window.confirm('Ștergi definitiv jurnalul salvat în acest browser?')) return;
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {
+      alert('Jurnalul nu a putut fi șters din spațiul local al browserului.');
+      return;
+    }
+    journal = [];
     renderJournal();
   }
 
@@ -253,13 +340,18 @@
   }
 
   function importJson(file) {
+    if (file.size > MAX_IMPORT_BYTES) {
+      alert('Fișierul trebuie să aibă cel mult 1 MB.');
+      return;
+    }
     const reader = new FileReader();
+    reader.onerror = () => alert('Fișierul nu a putut fi citit.');
     reader.onload = (e) => {
       try {
         const data = JSON.parse(e.target.result);
         if (!Array.isArray(data)) throw new Error('Format invalid');
-        const clean = data.filter(
-          (x) => x && typeof x.name === 'string' && Number.isFinite(x.kcal)
+        const clean = data.filter(isValidEntry).slice(0, MAX_ENTRIES).map(
+          (x) => ({ name: x.name.trim(), kcal: x.kcal })
         );
         if (clean.length === 0) throw new Error('Nicio intrare validă');
         journal = clean;
@@ -275,14 +367,21 @@
 
   /* ---------- Calcule ---------- */
   function calculate() {
+    $('result').classList.remove('show');
     const sex = $('sex').value;
     const age = num($('age').value);
     const height = num($('height').value);
     const weight = num($('weight').value);
     const activity = num($('activity').value);
 
-    if (!age || !height || !weight) {
-      alert('Completează vârsta, înălțimea și greutatea.');
+    if (
+      !Number.isInteger(age) || age < 18 || age > 100 ||
+      !Number.isInteger(height) || height < 100 || height > 230 ||
+      weight === null || weight < 30 || weight > 250 ||
+      !ACTIVITY_LEVELS.has($('activity').value) ||
+      !['m', 'f'].includes(sex)
+    ) {
+      alert('Verifică datele: vârsta 18–100 ani, înălțimea 100–230 cm și greutatea 30–250 kg.');
       return;
     }
 
@@ -316,9 +415,20 @@
   }
 
   /* ---------- Evenimente ---------- */
+  $('adultConfirm').addEventListener('change', (e) => {
+    $('continueBtn').disabled = !e.target.checked;
+  });
+  $('continueBtn').addEventListener('click', () => {
+    if (!$('adultConfirm').checked) return;
+    $('ageGate').hidden = true;
+    $('appContent').hidden = false;
+    loadJournal();
+    renderJournal();
+  });
   $('calcBtn').addEventListener('click', calculate);
   $('addBtn').addEventListener('click', addEntry);
   $('exportBtn').addEventListener('click', exportJson);
+  $('clearBtn').addEventListener('click', clearJournal);
   $('importFile').addEventListener('change', (e) => {
     if (e.target.files && e.target.files[0]) importJson(e.target.files[0]);
     e.target.value = '';
@@ -327,9 +437,6 @@
     if (e.key === 'Enter') addEntry();
   });
 
-  /* ---------- Inițializare ---------- */
-  loadJournal();
-  renderJournal();
 })();
 </script>
 </body>
