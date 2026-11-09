@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instrument Nutrițional General</title>
+<style>
+  :root {
+    --bg: #f7f9fc; --card: #ffffff; --text: #1a2b3c; --muted: #5a6b7c;
+    --accent: #2e7d5b; --accent-light: #e6f2ec; --border: #dde5ec;
+    --warn-bg: #fff8e6; --warn-border: #e6c34a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.55;
+    padding: 24px 16px; max-width: 760px; margin: 0 auto;
+  }
+  h1 { font-size: 1.5rem; margin-bottom: 4px; }
+  .subtitle { color: var(--muted); font-size: .92rem; margin-bottom: 20px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px; margin-bottom: 16px;
+  }
+  h2 { font-size: 1.05rem; margin-bottom: 12px; color: var(--accent); }
+  label { display: block; font-size: .88rem; color: var(--muted); margin-bottom: 4px; margin-top: 10px; }
+  input, select {
+    width: 100%; padding: 8px 10px; border: 1px solid var(--border);
+    border-radius: 6px; font-size: .95rem; background: #fff; color: var(--text);
+  }
+  input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  button {
+    margin-top: 14px; padding: 9px 18px; border: none; border-radius: 6px;
+    background: var(--accent); color: #fff; font-size: .95rem; cursor: pointer;
+  }
+  button:hover { filter: brightness(1.08); }
+  button.secondary {
+    background: var(--accent-light); color: var(--accent);
+    border: 1px solid var(--accent); margin-left: 8px;
+  }
+  .result { margin-top: 14px; padding: 12px; background: var(--accent-light);
+    border-radius: 6px; font-size: .95rem; display: none; }
+  .result.show { display: block; }
+  .result strong { color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: .9rem; }
+  th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 600; font-size: .82rem; text-transform: uppercase; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .empty { color: var(--muted); font-style: italic; font-size: .9rem; margin-top: 8px; }
+  .delete-btn { background: none; border: none; color: #c0392b; cursor: pointer;
+    font-size: .85rem; padding: 2px 6px; margin: 0; }
+  .disclaimer {
+    background: var(--warn-bg); border: 1px solid var(--warn-border);
+    border-radius: 8px; padding: 14px 16px; font-size: .85rem; color: #6b5300;
+    margin-top: 20px;
+  }
+  .disclaimer strong { display: block; margin-bottom: 4px; }
+  .actions { margin-top: 12px; }
+  @media (max-width: 480px) { .row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<h1>Instrument Nutrițional General</h1>
+<p class="subtitle">Calcule orientative și jurnal alimentar — datele rămân în browserul tău.</p>
+
+<!-- 1. Date personale -->
+<section class="card">
+  <h2>1. Date personale</h2>
+  <div class="row">
+    <div>
+      <label for="sex">Sex</label>
+      <select id="sex">
+        <option value="m">Bărbat</option>
+        <option value="f">Femeie</option>
+      </select>
+    </div>
+    <div>
+      <label for="age">Vârstă (ani)</label>
+      <input type="number" id="age" min="14" max="100" placeholder="ex. 30">
+    </div>
+  </div>
+  <div class="row">
+    <div>
+      <label for="height">Înălțime (cm)</label>
+      <input type="number" id="height" min="100" max="230" placeholder="ex. 175">
+    </div>
+    <div>
+      <label for="weight">Greutate (kg)</label>
+      <input type="number" id="weight" min="30" max="250" step="0.1" placeholder="ex. 70">
+    </div>
+  </div>
+  <label for="activity">Nivel de activitate</label>
+  <select id="activity">
+    <option value="1.2">Sedentar (puțină mișcare)</option>
+    <option value="1.375">Ușor activ (1–3 zile/săpt.)</option>
+    <option value="1.55" selected>Moderat activ (3–5 zile/săpt.)</option>
+    <option value="1.725">Foarte activ (6–7 zile/săpt.)</option>
+    <option value="1.9">Extrem de activ (muncă fizică + sport)</option>
+  </select>
+  <button id="calcBtn">Calculează</button>
+
+  <div class="result" id="result">
+    <p>IMC: <strong id="bmi">—</strong> <span id="bmiCat"></span></p>
+    <p>Necesar caloric estimativ: <strong id="tdee">—</strong> kcal/zi</p>
+    <p>Macronutrienți orientativi: proteine <strong id="prot">—</strong> g,
+       grăsimi <strong id="fat">—</strong> g,
+       carbohidrați <strong id="carb">—</strong> g</p>
+  </div>
+</section>
+
+<!-- 2. Jurnal alimentar -->
+<section class="card">
+  <h2>2. Jurnal alimentar</h2>
+  <div class="row">
+    <div>
+      <label for="foodName">Aliment</label>
+      <input type="text" id="foodName" placeholder="ex. iaurt natural">
+    </div>
+    <div>
+      <label for="foodKcal">Calorii (kcal)</label>
+      <input type="number" id="foodKcal" min="0" step="1" placeholder="ex. 120">
+    </div>
+  </div>
+  <button id="addBtn">Adaugă</button>
+  <button id="exportBtn" class="secondary">Export JSON</button>
+  <label for="importFile" style="margin-top:12px;">Import JSON</label>
+  <input type="file" id="importFile" accept=".json">
+
+  <table id="journalTable" style="display:none;">
+    <thead>
+      <tr><th>Aliment</th><th class="num">kcal</th><th></th></tr>
+    </thead>
+    <tbody id="journalBody"></tbody>
+    <tfoot>
+      <tr><th>Total</th><th class="num" id="totalKcal">0</th><th></th></tr>
+    </tfoot>
+  </table>
+  <p class="empty" id="emptyMsg">Jurnalul este gol.</p>
+</section>
+
+<!-- Disclaimer -->
+<div class="disclaimer">
+  <strong>Notă importantă</strong>
+  Acest instrument oferă doar informații generale de educație nutrițională și
+  estimări orientative. Nu constituie consult dietetic, plan alimentar
+  personalizat sau sfat medical și nu înlocuiește consultul unui dietetician
+  autorizat conform Legii nr. 256/2015. Pentru nevoi individuale, adresați-vă
+  unui specialist autorizat.
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  const STORAGE_KEY = 'nutrition_journal_v1';
+
+  /* ---------- Utilitare ---------- */
+  const $ = (id) => document.getElementById(id);
+  const num = (v) => {
+    const n = parseFloat(v);
+    return Number.isFinite(n) ? n : null;
+  };
+  const round1 = (n) => Math.round(n * 10) / 10;
+
+  /* ---------- Jurnal: stare + persistare ---------- */
+  let journal = [];
+
+  function loadJournal() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      journal = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(journal)) journal = [];
+    } catch (e) {
+      journal = [];
+    }
+  }
+
+  function saveJournal() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(journal));
+    } catch (e) {
+      alert('Nu s-a putut salva jurnalul în browser.');
+    }
+  }
+
+  function renderJournal() {
+    const tbody = $('journalBody');
+    const table = $('journalTable');
+    const empty = $('emptyMsg');
+    tbody.innerHTML = '';
+
+    if (journal.length === 0) {
+      table.style.display = 'none';
+      empty.style.display = 'block';
+      return;
+    }
+    table.style.display = 'table';
+    empty.style.display = 'none';
+
+    let total = 0;
+    journal.forEach((item, idx) => {
+      total += item.kcal;
+      const tr = document.createElement('tr');
+      const tdName = document.createElement('td');
+      tdName.textContent = item.name;
+      const tdKcal = document.createElement('td');
+      tdKcal.className = 'num';
+      tdKcal.textContent = item.kcal;
+      const tdDel = document.createElement('td');
+      const btn = document.createElement('button');
+      btn.className = 'delete-btn';
+      btn.textContent = 'Șterge';
+      btn.addEventListener('click', () => removeEntry(idx));
+      tdDel.appendChild(btn);
+      tr.append(tdName, tdKcal, tdDel);
+      tbody.appendChild(tr);
+    });
+    $('totalKcal').textContent = total;
+  }
+
+  function addEntry() {
+    const name = $('foodName').value.trim();
+    const kcal = num($('foodKcal').value);
+    if (!name) { alert('Introdu numele alimentului.'); return; }
+    if (kcal === null || kcal < 0) { alert('Introdu un număr valid de calorii.'); return; }
+    journal.push({ name, kcal });
+    saveJournal();
+    renderJournal();
+    $('foodName').value = '';
+    $('foodKcal').value = '';
+    $('foodName').focus();
+  }
+
+  function removeEntry(idx) {
+    journal.splice(idx, 1);
+    saveJournal();
+    renderJournal();
+  }
+
+  /* ---------- Export / Import ---------- */
+  function exportJson() {
+    const blob = new Blob([JSON.stringify(journal, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'jurnal-alimentar.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function importJson(file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (!Array.isArray(data)) throw new Error('Format invalid');
+        const clean = data.filter(
+          (x) => x && typeof x.name === 'string' && Number.isFinite(x.kcal)
+        );
+        if (clean.length === 0) throw new Error('Nicio intrare validă');
+        journal = clean;
+        saveJournal();
+        renderJournal();
+        alert('Jurnal importat: ' + clean.length + ' intrări.');
+      } catch (err) {
+        alert('Fișier invalid: ' + err.message);
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  /* ---------- Calcule ---------- */
+  function calculate() {
+    const sex = $('sex').value;
+    const age = num($('age').value);
+    const height = num($('height').value);
+    const weight = num($('weight').value);
+    const activity = num($('activity').value);
+
+    if (!age || !height || !weight) {
+      alert('Completează vârsta, înălțimea și greutatea.');
+      return;
+    }
+
+    /* IMC */
+    const hM = height / 100;
+    const bmi = weight / (hM * hM);
+    let cat = '';
+    if (bmi < 18.5) cat = '(subponderal)';
+    else if (bmi < 25) cat = '(normal)';
+    else if (bmi < 30) cat = '(supraponderal)';
+    else cat = '(obezitate)';
+
+    /* Mifflin-St Jeor */
+    let bmr;
+    if (sex === 'm') bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+    else bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+    const tdee = bmr * activity;
+
+    /* Macros: 25% proteine, 30% grăsimi, 45% carbohidrați */
+    const prot = round1((tdee * 0.25) / 4);
+    const fat = round1((tdee * 0.30) / 9);
+    const carb = round1((tdee * 0.45) / 4);
+
+    $('bmi').textContent = round1(bmi);
+    $('bmiCat').textContent = cat;
+    $('tdee').textContent = Math.round(tdee);
+    $('prot').textContent = prot;
+    $('fat').textContent = fat;
+    $('carb').textContent = carb;
+    $('result').classList.add('show');
+  }
+
+  /* ---------- Evenimente ---------- */
+  $('calcBtn').addEventListener('click', calculate);
+  $('addBtn').addEventListener('click', addEntry);
+  $('exportBtn').addEventListener('click', exportJson);
+  $('importFile').addEventListener('change', (e) => {
+    if (e.target.files && e.target.files[0]) importJson(e.target.files[0]);
+    e.target.value = '';
+  });
+  $('foodKcal').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') addEntry();
+  });
+
+  /* ---------- Inițializare ---------- */
+  loadJournal();
+  renderJournal();
+})();
+</script>
+</body>
+</html>
