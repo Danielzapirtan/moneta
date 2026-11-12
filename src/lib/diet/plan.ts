@@ -1,4 +1,5 @@
 import { addDays, format, startOfWeek } from "date-fns";
+import { ro } from "date-fns/locale";
 import { FOODS } from "@/lib/diet/foods";
 import type {
   Allergen,
@@ -63,8 +64,8 @@ export function weekLabel(anchorKey: string): string {
   const days = weekDates(anchorKey);
   const a = parseKey(days[0] ?? anchorKey);
   const b = parseKey(days[6] ?? anchorKey);
-  if (a.getMonth() === b.getMonth()) return `${format(a, "d")}–${format(b, "d MMM")}`;
-  return `${format(a, "d MMM")} – ${format(b, "d MMM")}`;
+  if (a.getMonth() === b.getMonth()) return `${format(a, "d")}–${format(b, "d MMM", { locale: ro })}`;
+  return `${format(a, "d MMM", { locale: ro })} – ${format(b, "d MMM", { locale: ro })}`;
 }
 
 export function greeting(now = new Date()): string {

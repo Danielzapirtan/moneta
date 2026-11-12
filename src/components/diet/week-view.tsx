@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { format } from "date-fns";
+import { ro } from "date-fns/locale";
 import { RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
@@ -74,7 +75,7 @@ export function WeekView({
               )}
             >
               <div className="flex items-baseline justify-between gap-3">
-                <span className="font-display text-2xl">{format(when, "EEE d")}</span>
+                <span className="font-display text-2xl">{format(when, "EEE d", { locale: ro })}</span>
                 <span className="tabular-nums text-sm text-mist">{day.totals.kcal} kcal</span>
               </div>
               <p className="mt-1 line-clamp-2 text-sm text-mist">{line}</p>

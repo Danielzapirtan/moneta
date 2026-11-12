@@ -80,7 +80,7 @@ function Shell() {
               </span>
               Linden
             </p>
-            <nav aria-label="Primary" className="mt-8 flex flex-col gap-1">
+            <nav aria-label="Navigare principală" className="mt-8 flex flex-col gap-1">
               {TABS.map((item) => {
                 const Icon = item.icon;
                 const active = tab === item.id;
@@ -153,7 +153,7 @@ function Shell() {
         </main>
       </div>
       <nav
-        aria-label="Primary"
+        aria-label="Navigare principală"
         className="safe-bottom fixed inset-x-0 bottom-0 z-20 border-t border-line bg-ink lg:hidden"
       >
         <div className="mx-auto flex max-w-lg">

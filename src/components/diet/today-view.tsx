@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { ro } from "date-fns/locale";
 import { ArrowLeftRight, Check, ChevronLeft, ChevronRight, Droplets } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
@@ -29,8 +30,8 @@ function Ring({ logged, target }: { logged: number; target: number }) {
       role="img"
       aria-label={
         over
-          ? `${logged} kilocalories logged, ${shown} over the ${target} target`
-          : `${left} kilocalories left of ${target}`
+          ? `${logged} kilocalorii înregistrate, ${shown} peste ținta de ${target}`
+          : `${left} kilocalorii rămase din ținta de ${target}`
       }
     >
       <svg viewBox="0 0 100 100" className="size-full">
@@ -122,9 +123,9 @@ export function TodayView({
     <div className="grid gap-6 lg:grid-cols-5">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between lg:col-span-5">
         <div>
-          <p className="text-sm text-mist">{format(when, "EEEE d MMMM")}</p>
+          <p className="text-sm text-mist">{format(when, "EEEE d MMMM", { locale: ro })}</p>
           <h1 className="font-display text-4xl leading-tight">
-            {isToday ? `${greeting()}, ${firstName(profile.name)}.` : format(when, "EEEE")}
+            {isToday ? `${greeting()}, ${firstName(profile.name)}.` : format(when, "EEEE", { locale: ro })}
           </h1>
         </div>
         <div className="flex items-center gap-2">
