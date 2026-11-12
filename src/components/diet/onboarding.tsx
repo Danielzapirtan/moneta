@@ -17,7 +17,7 @@ import type { Activity, Allergen, Goal, Profile, Sex, Style } from "@/lib/diet/t
 const SAMPLES: { label: string; hint: string; profile: Profile }[] = [
   {
     label: "Ana",
-    hint: "Ease down · Mediterranean",
+    hint: "Reducere · Mediteranean",
     profile: {
       name: "Ana",
       goal: "lose",
@@ -33,7 +33,7 @@ const SAMPLES: { label: string; hint: string; profile: Profile }[] = [
   },
   {
     label: "Mihai",
-    hint: "Hold steady · high protein, no gluten",
+    hint: "Menținere · proteine mari, fără gluten",
     profile: {
       name: "Mihai",
       goal: "maintain",
@@ -89,15 +89,15 @@ export function Onboarding({
     const heightN = Number(heightCm);
     const weightN = Number(weightKg);
     if (!Number.isFinite(ageN) || ageN < 16 || ageN > 90) {
-      setError("Age needs to sit between 16 and 90.");
+      setError("Vârsta trebuie să fie între 16 și 90.");
       return;
     }
     if (!Number.isFinite(heightN) || heightN < 140 || heightN > 220) {
-      setError("Height, in centimeters, between 140 and 220.");
+      setError("Înălțimea, în centimetri, între 140 și 220.");
       return;
     }
     if (!Number.isFinite(weightN) || weightN < 40 || weightN > 220) {
-      setError("Weight, in kilograms, between 40 and 220.");
+      setError("Greutatea, în kilograme, între 40 și 220.");
       return;
     }
     setError(null);
@@ -124,7 +124,7 @@ export function Onboarding({
     });
   }
 
-  const titles = ["Who are we feeding?", "The arithmetic", "The kitchen you have"];
+  const titles = ["Cine mănâncă?", "Calculele", "Bucătăria ta"];
 
   return (
     <main className="min-h-screen bg-ink text-cream">
@@ -146,11 +146,11 @@ export function Onboarding({
             event.preventDefault();
             if (step === 0) {
               if (!validName(name)) {
-                setError("Use a first name, two letters or more.");
+                setError("Folosește un prenume, cu două litere sau mai mult.");
                 return;
               }
               if (!goal) {
-                setError("Choose what this week should do.");
+                setError("Alege ce ar trebui să facă săptămâna aceasta.");
                 return;
               }
               setError(null);
@@ -166,27 +166,27 @@ export function Onboarding({
         >
           <h1 className="font-display text-4xl leading-tight">{titles[step]}</h1>
           <p className="mt-3 text-mist">
-            {step === 0 && "Linden builds a week of plates around your numbers, not a generic menu."}
-            {step === 1 && "Mifflin–St Jeor, then a trim or a little extra for the goal. You can change this later."}
-            {step === 2 && "One way of eating, plus anything the kitchen must skip."}
+            {step === 0 && "Linden construiește o săptămână de farfurii în jurul numerelor tale, nu un meniu generic."}
+            {step === 1 && "Mifflin–St Jeor, apoi un mic deficit sau un surplus în funcție de obiectiv. Poți schimba mai târziu."}
+            {step === 2 && "Un mod de alimentație, plus orice trebuie să fie exclus din bucătărie."}
           </p>
 
           {step === 0 && (
             <div className="mt-8 flex flex-col gap-6">
               <label className="block">
-                <span className="mb-2 block text-sm text-mist">Name</span>
+                <span className="mb-2 block text-sm text-mist">Nume</span>
                 <input
                   className={FIELD}
                   value={name}
                   autoComplete="given-name"
                   autoCapitalize="words"
                   maxLength={32}
-                  placeholder="Your name"
+                  placeholder="Numele tău"
                   onChange={(event) => setName(event.target.value)}
                 />
               </label>
               <fieldset>
-                <legend className="mb-3 text-sm text-mist">What should the week do?</legend>
+                <legend className="mb-3 text-sm text-mist">Ce ar trebui să facă săptămâna?</legend>
                 <div className="grid gap-3">
                   {(Object.keys(GOAL_COPY) as Goal[]).map((id) => {
                     const copy = GOAL_COPY[id];
@@ -216,7 +216,7 @@ export function Onboarding({
             <div className="mt-8 flex flex-col gap-5">
               <div className="grid grid-cols-3 gap-3">
                 <label className="block">
-                  <span className="mb-2 block text-sm text-mist">Age</span>
+                  <span className="mb-2 block text-sm text-mist">Vârstă</span>
                   <input
                     className={FIELD}
                     inputMode="numeric"
@@ -225,30 +225,30 @@ export function Onboarding({
                   />
                 </label>
                 <label className="block">
-                  <span className="mb-2 block text-sm text-mist">Height</span>
+                  <span className="mb-2 block text-sm text-mist">Înălțime</span>
                   <input
                     className={FIELD}
                     inputMode="decimal"
                     value={heightCm}
-                    aria-label="Height in centimeters"
+                    aria-label="Înălțime în centimetri"
                     onChange={(event) => setHeightCm(event.target.value)}
                   />
                 </label>
                 <label className="block">
-                  <span className="mb-2 block text-sm text-mist">Weight</span>
+                  <span className="mb-2 block text-sm text-mist">Greutate</span>
                   <input
                     className={FIELD}
                     inputMode="decimal"
                     value={weightKg}
-                    aria-label="Weight in kilograms"
+                    aria-label="Greutate în kilograme"
                     onChange={(event) => setWeightKg(event.target.value)}
                   />
                 </label>
               </div>
-              <p className="-mt-3 text-sm text-mist">Height in cm, weight in kg.</p>
+              <p className="-mt-3 text-sm text-mist">Înălțime în cm, greutate în kg.</p>
               <fieldset>
-                <legend className="mb-2 text-sm text-mist">Body formula</legend>
-                <p className="mb-3 text-sm text-mist">The equation uses one of two constants.</p>
+                <legend className="mb-2 text-sm text-mist">Formulă corporală</legend>
+                <p className="mb-3 text-sm text-mist">Ecuația folosește una dintre două constante.</p>
                 <div className="grid grid-cols-2 gap-3">
                   {(["female", "male"] as Sex[]).map((id) => (
                     <button
@@ -257,17 +257,17 @@ export function Onboarding({
                       aria-pressed={sex === id}
                       onClick={() => setSex(id)}
                       className={cn(
-                        "h-12 rounded-2xl border capitalize",
+                        "h-12 rounded-2xl border",
                         sex === id ? "border-leaf bg-panel-2" : "border-line bg-panel",
                       )}
                     >
-                      {id}
+                      {id === "female" ? "Femeie" : "Bărbat"}
                     </button>
                   ))}
                 </div>
               </fieldset>
               <fieldset>
-                <legend className="mb-3 text-sm text-mist">A usual day</legend>
+                <legend className="mb-3 text-sm text-mist">O zi obișnuită</legend>
                 <div className="grid gap-2">
                   {ACTIVITY_ORDER.map((id) => {
                     const copy = ACTIVITY_COPY[id];
@@ -296,7 +296,7 @@ export function Onboarding({
           {step === 2 && (
             <div className="mt-8 flex flex-col gap-6">
               <fieldset>
-                <legend className="mb-3 text-sm text-mist">Way of eating</legend>
+                <legend className="mb-3 text-sm text-mist">Mod de alimentație</legend>
                 <div className="grid grid-cols-2 gap-3">
                   {STYLE_ORDER.map((id) => {
                     const copy = STYLE_COPY[id];
@@ -321,7 +321,7 @@ export function Onboarding({
                 </div>
               </fieldset>
               <fieldset>
-                <legend className="mb-3 text-sm text-mist">Skip these</legend>
+                <legend className="mb-3 text-sm text-mist">Exclude</legend>
                 <div className="flex flex-wrap gap-2">
                   {ALLERGEN_ORDER.filter((id) => !hiddenAllergens(style).includes(id)).map((id) => {
                     const selected = exclusions.includes(id);
@@ -343,12 +343,12 @@ export function Onboarding({
                 </div>
               </fieldset>
               <fieldset>
-                <legend className="mb-3 text-sm text-mist">Plates in a day</legend>
+                <legend className="mb-3 text-sm text-mist">Farfurii pe zi</legend>
                 <div className="grid grid-cols-2 gap-3">
                   {(
                     [
-                      [3, "Three plates"],
-                      [4, "Three, plus a snack"],
+                      [3, "Trei farfurii"],
+                      [4, "Trei, plus o gustare"],
                     ] as const
                   ).map(([count, label]) => (
                     <button
@@ -384,23 +384,23 @@ export function Onboarding({
                   setStep((value) => value - 1);
                 }}
               >
-                Back
+                Înapoi
               </Button>
             )}
             {step === 0 && onCancel && (
               <Button variant="quiet" onClick={onCancel}>
-                Cancel
+                Anulează
               </Button>
             )}
             <Button type="submit" className="flex-1">
-              {step < 2 ? "Continue" : initial ? "Save rules" : "Build my week"}
+              {step < 2 ? "Continuă" : initial ? "Salvează regulile" : "Construiește săptămâna mea"}
             </Button>
           </div>
         </form>
 
         {step === 0 && !initial && (
           <div className="mt-10 border-t border-line pt-6">
-            <p className="text-sm text-mist">Or start from a sample kitchen</p>
+            <p className="text-sm text-mist">Sau începe de la o bucătărie exemplu</p>
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
               {SAMPLES.map((sample) => (
                 <button

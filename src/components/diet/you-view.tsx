@@ -38,26 +38,26 @@ export function YouView({
   return (
     <div className="flex max-w-3xl flex-col gap-6">
       <header>
-        <p className="text-sm text-mist">Kept on this device</p>
+        <p className="text-sm text-mist">Păstrat pe acest dispozitiv</p>
         <h1 className="font-display text-4xl leading-tight">{profile.name}</h1>
         <p className="mt-2 text-mist">
           {GOAL_COPY[profile.goal].label} · {STYLE_COPY[profile.style].label} ·{" "}
           {ACTIVITY_COPY[profile.activity].label}
-          {profile.meals === 4 ? " · snack included" : " · three plates"}
-          {skipped.length > 0 ? ` · skipping ${skipped.join(", ").toLowerCase()}` : ""}
+          {profile.meals === 4 ? " · gustare inclusă" : " · trei farfurii"}
+          {skipped.length > 0 ? ` · exclud ${skipped.join(", ").toLowerCase()}` : ""}
         </p>
       </header>
 
       <section className="flex items-center justify-between gap-4 rounded-2xl border border-line bg-panel p-4">
         <div>
-          <p className="text-sm text-mist">Weight</p>
+          <p className="text-sm text-mist">Greutate</p>
           <p className="font-display text-4xl tabular-nums">{formatKg(profile.weightKg)} kg</p>
         </div>
         <div className="flex gap-2">
           <Button
             size="icon"
             variant="quiet"
-            aria-label="Decrease weight by half a kilogram"
+            aria-label="Scade greutatea cu jumătate de kilogram"
             onClick={() => onWeight(Math.max(40, Math.round((profile.weightKg - 0.5) * 10) / 10))}
           >
             <Minus className="size-5" />
@@ -65,7 +65,7 @@ export function YouView({
           <Button
             size="icon"
             variant="quiet"
-            aria-label="Increase weight by half a kilogram"
+            aria-label="Crește greutatea cu jumătate de kilogram"
             onClick={() => onWeight(Math.min(220, Math.round((profile.weightKg + 0.5) * 10) / 10))}
           >
             <Plus className="size-5" />
@@ -74,23 +74,23 @@ export function YouView({
       </section>
 
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-        <Stat label="Resting burn" value={String(targets.bmr)} unit="kcal" />
-        <Stat label="With activity" value={String(targets.tdee)} unit="kcal" />
-        <Stat label="Day's target" value={String(targets.kcal)} unit="kcal" />
-        <Stat label="Protein" value={String(targets.protein)} unit="grams" />
-        <Stat label="Carbs" value={String(targets.carbs)} unit="grams" />
-        <Stat label="Fat" value={String(targets.fat)} unit="grams" />
+        <Stat label="Metabolism de repaus" value={String(targets.bmr)} unit="kcal" />
+        <Stat label="Cu activitate" value={String(targets.tdee)} unit="kcal" />
+        <Stat label="Ținta zilei" value={String(targets.kcal)} unit="kcal" />
+        <Stat label="Proteine" value={String(targets.protein)} unit="grame" />
+        <Stat label="Carbohidrați" value={String(targets.carbs)} unit="grame" />
+        <Stat label="Grăsimi" value={String(targets.fat)} unit="grame" />
       </section>
 
       <p className="max-w-xl text-sm text-mist">
-        {profile.goal === "lose" && `About ${delta} kcal under maintenance. `}
-        {profile.goal === "gain" && `About ${Math.abs(delta)} kcal over maintenance. `}
-        {profile.goal === "maintain" && "Set to match what you burn. "}
-        Estimated with Mifflin–St Jeor. These are targets, not a prescription.
+        {profile.goal === "lose" && `Aproximativ ${delta} kcal sub întreținere. `}
+        {profile.goal === "gain" && `Aproximativ ${Math.abs(delta)} kcal peste întreținere. `}
+        {profile.goal === "maintain" && "Setat să se potrivească cu ceea ce arzi. "}
+        Estimate cu Mifflin–St Jeor. Acestea sunt ținte, nu o prescripție.
       </p>
 
       <div className="flex flex-wrap gap-3">
-        <Button onClick={onEdit}>Edit rules</Button>
+        <Button onClick={onEdit}>Editează regulile</Button>
         <Button
           variant="quiet"
           className="text-clay"
@@ -102,7 +102,7 @@ export function YouView({
             onClear();
           }}
         >
-          {confirm ? "Erase everything on this device?" : "Clear this device"}
+          {confirm ? "Ștergi totul pe acest dispozitiv?" : "Golește acest dispozitiv"}
         </Button>
       </div>
     </div>

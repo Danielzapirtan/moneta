@@ -53,7 +53,7 @@ function Ring({ logged, target }: { logged: number; target: number }) {
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className={cn("font-display text-2xl tabular-nums", over && "text-clay")}>{shown}</span>
-        <span className="text-xs text-mist">{over ? "over" : "left"}</span>
+        <span className="text-xs text-mist">{over ? "peste" : "rămas"}</span>
       </div>
     </div>
   );
@@ -128,15 +128,15 @@ export function TodayView({
           </h1>
         </div>
         <div className="flex items-center gap-2">
-          <Button size="icon" variant="quiet" aria-label="Previous day" onClick={() => setDate(shiftDate(date, -1))}>
+          <Button size="icon" variant="quiet" aria-label="Ziua anterioară" onClick={() => setDate(shiftDate(date, -1))}>
             <ChevronLeft className="size-5" />
           </Button>
           {!isToday && (
             <Button variant="quiet" size="sm" onClick={() => setDate(todayKey())}>
-              Today
+              Azi
             </Button>
           )}
-          <Button size="icon" variant="quiet" aria-label="Next day" onClick={() => setDate(shiftDate(date, 1))}>
+          <Button size="icon" variant="quiet" aria-label="Ziua următoare" onClick={() => setDate(shiftDate(date, 1))}>
             <ChevronRight className="size-5" />
           </Button>
         </div>
@@ -146,29 +146,28 @@ export function TodayView({
         <div className="flex items-center gap-4">
           <Ring logged={logged.kcal} target={targets.kcal} />
           <div className="min-w-0">
-            <p className="text-sm text-mist">Logged</p>
+            <p className="text-sm text-mist">Înregistrat</p>
             <p className="font-display text-3xl tabular-nums leading-none">
               {logged.kcal}
               <span className="text-lg text-mist"> / {targets.kcal}</span>
             </p>
             <p className="mt-2 text-sm text-mist">
-              Plan {day.totals.kcal} kcal · {fit}% plate fit
+              Plan {day.totals.kcal} kcal · {fit}% potrivire a farfuriei
             </p>
             <p className="text-sm text-mist">
-              {loggedMeals} of {day.meals.length} plates logged
+              {loggedMeals} din {day.meals.length} farfurii înregistrate
             </p>
-          </div>
-        </div>
+          </div>        </div>
         <div className="flex flex-col gap-3">
-          <MacroBar label="Protein" value={logged.protein} goal={targets.protein} tone="bg-leaf" />
-          <MacroBar label="Carbs" value={logged.carbs} goal={targets.carbs} tone="bg-cream" />
-          <MacroBar label="Fat" value={logged.fat} goal={targets.fat} tone="bg-clay" />
+          <MacroBar label="Proteine" value={logged.protein} goal={targets.protein} tone="bg-leaf" />
+          <MacroBar label="Carbohidrați" value={logged.carbs} goal={targets.carbs} tone="bg-cream" />
+          <MacroBar label="Grăsimi" value={logged.fat} goal={targets.fat} tone="bg-clay" />
         </div>
         <div className="border-t border-line pt-4">
           <div className="mb-3 flex items-center justify-between gap-3">
             <p className="flex items-center gap-2 text-sm text-mist">
               <Droplets className="size-4 text-leaf" aria-hidden="true" />
-              Water
+              Apă
             </p>
             <p className="text-sm tabular-nums text-mist">
               {water * 250} / {targets.waterGlasses * 250} ml
@@ -181,7 +180,7 @@ export function TodayView({
                 <button
                   key={index}
                   type="button"
-                  aria-label={`Set water to ${index + 1} glass${index === 0 ? "" : "es"}`}
+                  aria-label={`Setează apa la ${index + 1} pahar${index === 0 ? "" : "e"}`}
                   aria-pressed={filled}
                   onClick={() => onWater(water === index + 1 ? index : index + 1)}
                   className={cn(
@@ -213,7 +212,7 @@ export function TodayView({
                   <h2 className="font-display text-2xl">{SLOT_COPY[meal.slot]}</h2>
                   {meal.optionCount > 1 && (
                     <p className="text-sm tabular-nums text-mist">
-                      Plate {option} of {meal.optionCount}
+                      Farfurie {option} din {meal.optionCount}
                     </p>
                   )}
                 </div>
@@ -221,7 +220,7 @@ export function TodayView({
                   <Button
                     size="icon"
                     variant="quiet"
-                    aria-label={`Another ${SLOT_COPY[meal.slot].toLowerCase()}`}
+                    aria-label={`Altă ${SLOT_COPY[meal.slot].toLowerCase()}`}
                     onClick={() => onSwap(meal.slot)}
                   >
                     <ArrowLeftRight className="size-5" />
@@ -230,7 +229,7 @@ export function TodayView({
               </div>
               {meal.servings.length === 0 ? (
                 <p className="mt-3 text-sm text-mist">
-                  Nothing in the kitchen fits this slot. Ease a restriction under Your numbers.
+                  Nimic din bucătărie nu se potrivește acestui interval. Relaxează o restricție din secțiunea Numerele tale.
                 </p>
               ) : (
                 <ul className="mt-3 flex flex-col gap-3">
@@ -250,7 +249,7 @@ export function TodayView({
                 </ul>
               )}
               <p className="mt-3 text-sm tabular-nums text-mist">
-                {meal.kcal} kcal · {meal.protein} g protein · {meal.carbs} g carb · {meal.fat} g fat
+                {meal.kcal} kcal · {meal.protein} g proteine · {meal.carbs} g carbohidrați · {meal.fat} g grăsimi
               </p>
               <Button
                 variant={loggedPlate ? "primary" : "quiet"}
@@ -260,7 +259,7 @@ export function TodayView({
                 disabled={meal.servings.length === 0}
               >
                 <Check className="size-4" aria-hidden="true" />
-                {loggedPlate ? "Logged" : "Log plate"}
+                {loggedPlate ? "Înregistrat" : "Înregistrează farfuria"}
               </Button>
             </article>
           );

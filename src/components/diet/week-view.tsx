@@ -29,9 +29,9 @@ export function WeekView({
       <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-sm text-mist">{weekLabel(date)}</p>
-          <h1 className="font-display text-4xl leading-tight">This week</h1>
+          <h1 className="font-display text-4xl leading-tight">Săptămâna aceasta</h1>
           <p className="mt-2 max-w-md text-mist">
-            Seven days from the same rules. Open a day to log it, or shuffle if the table feels stale.
+            Șapte zile cu aceleași reguli. Deschide o zi pentru a o înregistra, sau amestecă dacă masa pare plictisitoare.
           </p>
         </div>
         <Button
@@ -47,10 +47,10 @@ export function WeekView({
           }}
         >
           <RefreshCw className="size-4" aria-hidden="true" />
-          {arm ? "Replace this week’s plates?" : "Shuffle plates"}
+          {arm ? "Înlocuiești farfuriile din această săptămână?" : "Amestecă farfuriile"}
         </Button>
       </header>
-      {noted && <p className="text-sm text-mist">New plates. Earlier swaps for this week were cleared.</p>}
+      {noted && <p className="text-sm text-mist">Farfurii noi. Înlocuirile anterioare pentru această săptămână au fost șterse.</p>}
       <div className="grid gap-3">
         {week.map((day) => {
           const when = parseKey(day.date);
@@ -85,7 +85,7 @@ export function WeekView({
                 />
               </div>
               <p className="mt-2 text-sm tabular-nums text-mist">
-                {logged} of {day.meals.length} logged · {fit}% fit
+                {logged} din {day.meals.length} înregistrate · {fit}% potrivire
               </p>
             </button>
           );

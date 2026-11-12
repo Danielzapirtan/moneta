@@ -21,17 +21,17 @@ export function ShopView({
     <div className="flex flex-col gap-5">
       <header>
         <p className="text-sm text-mist">{weekLabel(date)}</p>
-        <h1 className="font-display text-4xl leading-tight">Shopping</h1>
+        <h1 className="font-display text-4xl leading-tight">Cumpărături</h1>
         <p className="mt-2 max-w-md text-mist">
-          From the plates in this week. Amounts follow the servings on the plan.
+          Din farfuriile din această săptămână. Cantitățile urmează porțiile din plan.
         </p>
         <p className="mt-3 text-sm tabular-nums text-mist">
-          {done} of {items.length} packed
+          {done} din {items.length} cumpărate
         </p>
       </header>
       {items.length === 0 ? (
         <p className="rounded-2xl border border-line bg-panel p-4 text-mist">
-          No plates yet. Ease a restriction and the list will fill.
+          Nicio farfurie încă. Relaxează o restricție și lista se va umple.
         </p>
       ) : (
         <div className="flex flex-col gap-2">

@@ -1,44 +1,44 @@
 import type { Activity, Allergen, Goal, Slot, Style } from "@/lib/diet/types";
 
 export const GOAL_COPY: Record<Goal, { label: string; hint: string }> = {
-  lose: { label: "Ease down", hint: "A modest deficit, still a full plate" },
-  maintain: { label: "Hold steady", hint: "Eat about what you burn" },
-  gain: { label: "Build", hint: "A small surplus for adding weight" },
+  lose: { label: "Reducere", hint: "Un deficit modest, dar cu farfurie plină" },
+  maintain: { label: "Menținere", hint: "Mănânci cam cât arzi" },
+  gain: { label: "Creștere", hint: "Un surplus mic pentru a câștiga în greutate" },
 };
 
 export const ACTIVITY_COPY: Record<Activity, { label: string; hint: string }> = {
-  sedentary: { label: "Desk-bound", hint: "Little walking" },
-  light: { label: "Light", hint: "Walks most days" },
-  moderate: { label: "On your feet", hint: "Or training about three times a week" },
-  active: { label: "Hard training", hint: "Most days, or a physical job" },
-  athlete: { label: "Athlete", hint: "Two sessions a day, or heavy labor" },
+  sedentary: { label: "La birou", hint: "Puțină plimbare" },
+  light: { label: "Ușor", hint: "Mergi în majoritatea zilelor" },
+  moderate: { label: "În mișcare", hint: "Sau antrenament de aproximativ trei ori pe săptămână" },
+  active: { label: "Antrenament intens", hint: "Majoritatea zilelor sau un job fizic" },
+  athlete: { label: "Atlet", hint: "Două sesiuni pe zi sau muncă grea" },
 };
 
 export const STYLE_COPY: Record<Style, { label: string; hint: string }> = {
-  balanced: { label: "Balanced", hint: "No extra rules" },
-  mediterranean: { label: "Mediterranean", hint: "Fish, olive oil, plants" },
-  "high-protein": { label: "High protein", hint: "Plates lean toward protein" },
-  "low-carb": { label: "Low carb", hint: "Fewer starches, more fat" },
-  pescatarian: { label: "Pescatarian", hint: "Fish, no meat" },
-  vegetarian: { label: "Vegetarian", hint: "Eggs and dairy stay" },
-  vegan: { label: "Vegan", hint: "Plants only" },
+  balanced: { label: "Echilibrat", hint: "Fără reguli suplimentare" },
+  mediterranean: { label: "Mediteranean", hint: "Pește, ulei de măsline, plante" },
+  "high-protein": { label: "Ridicat în proteine", hint: "Farfurii orientate spre proteină" },
+  "low-carb": { label: "Cu puține carbohidrați", hint: "Mai puține amidonuri, mai multe grăsimi" },
+  pescatarian: { label: "Pescatarian", hint: "Pește, fără carne" },
+  vegetarian: { label: "Vegetarian", hint: "Ouăle și produsele lactate rămân" },
+  vegan: { label: "Vegan", hint: "Numai plante" },
 };
 
 export const ALLERGEN_COPY: Record<Allergen, string> = {
-  dairy: "Dairy",
-  eggs: "Eggs",
-  nuts: "Nuts",
+  dairy: "Lactate",
+  eggs: "Ouă",
+  nuts: "Nuci",
   gluten: "Gluten",
-  soy: "Soy",
-  fish: "Fish",
-  shellfish: "Shellfish",
+  soy: "Soia",
+  fish: "Pește",
+  shellfish: "Crustacee",
 };
 
 export const SLOT_COPY: Record<Slot, string> = {
-  breakfast: "Breakfast",
-  lunch: "Lunch",
-  dinner: "Dinner",
-  snack: "Snack",
+  breakfast: "Mic dejun",
+  lunch: "Prânz",
+  dinner: "Cină",
+  snack: "Gustare",
 };
 
 export const STYLE_ORDER: Style[] = [

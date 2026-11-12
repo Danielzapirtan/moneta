@@ -13,10 +13,10 @@ import type { Profile, Slot } from "@/lib/diet/types";
 type Tab = "today" | "week" | "shop" | "you";
 
 const TABS: { id: Tab; label: string; icon: typeof Leaf }[] = [
-  { id: "today", label: "Today", icon: UtensilsCrossed },
-  { id: "week", label: "Week", icon: CalendarDays },
-  { id: "shop", label: "Shop", icon: ShoppingBasket },
-  { id: "you", label: "You", icon: CircleUser },
+  { id: "today", label: "Azi", icon: UtensilsCrossed },
+  { id: "week", label: "Săptămâna", icon: CalendarDays },
+  { id: "shop", label: "Cumpărături", icon: ShoppingBasket },
+  { id: "you", label: "Tu", icon: CircleUser },
 ];
 
 function Shell() {
@@ -69,7 +69,7 @@ function Shell() {
         href="#content"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-leaf focus:px-4 focus:py-2 focus:text-ink-on-leaf"
       >
-        Skip to content
+        Sari la conținut
       </a>
       <div className="mx-auto flex min-h-screen w-full max-w-6xl">
         <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col justify-between border-r border-line px-4 py-6 lg:flex">
@@ -102,7 +102,7 @@ function Shell() {
               })}
             </nav>
           </div>
-          <p className="px-3 text-sm text-mist">Kept on this device.</p>
+          <p className="px-3 text-sm text-mist">Păstrat pe acest dispozitiv.</p>
         </aside>
         <main id="content" className="min-w-0 flex-1 px-4 pb-28 pt-6 sm:px-8 lg:px-10 lg:pb-12">
           {tab === "today" && (

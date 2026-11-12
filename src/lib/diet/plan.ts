@@ -24,15 +24,15 @@ const ACTIVITY_FACTOR = {
 } as const;
 
 const GROUP: Record<Kind, string> = {
-  plant: "Plants & pantry",
-  egg: "Eggs & dairy",
-  dairy: "Eggs & dairy",
-  fish: "Fish",
-  poultry: "Poultry & meat",
-  meat: "Poultry & meat",
+  plant: "Plante și produse de bază",
+  egg: "Ouă și lactate",
+  dairy: "Ouă și lactate",
+  fish: "Pește",
+  poultry: "Pui și carne",
+  meat: "Pui și carne",
 };
 
-const GROUP_ORDER = ["Plants & pantry", "Eggs & dairy", "Fish", "Poultry & meat"];
+const GROUP_ORDER = ["Plante și produse de bază", "Ouă și lactate", "Pește", "Pui și carne"];
 
 export function formatKey(date: Date): string {
   const y = date.getFullYear();
@@ -69,9 +69,9 @@ export function weekLabel(anchorKey: string): string {
 
 export function greeting(now = new Date()): string {
   const h = now.getHours();
-  if (h < 11) return "Good morning";
-  if (h < 17) return "Good afternoon";
-  return "Good evening";
+  if (h < 11) return "Bună dimineața";
+  if (h < 17) return "Bună ziua";
+  return "Bună seara";
 }
 
 export function firstName(name: string): string {
@@ -373,25 +373,25 @@ export function plateFit(day: DayPlan, goal: Targets): number {
 
 const NOTES: Record<Goal, string[]> = {
   lose: [
-    "The deficit is modest on purpose. Skipping a plate usually makes the next one louder.",
-    "If the afternoon drags, eat the snack. Waiting for a bigger dinner rarely helps.",
-    "Oil is already counted. An extra unmeasured pour is the usual leak.",
-    "Hunger that arrives before a planned plate is a cue to eat, not a test of will.",
-    "Weigh yourself, then look at the week — one morning is noise.",
+    "Deficitul este intenționat modest. Sări peste o farfurie de obicei face următoarea mai zgomotoasă.",
+    "Dacă după-amiaza se împiedică, mănâncă gustarea. Să aștepți o cină mai mare rareori ajută.",
+    "Uleiul este deja calculat. Un strop suplimentar neîncadrat este scurgerea obișnuită.",
+    "Foamea care apare înaintea unei farfurii planificate este un semnal de mâncat, nu un test de voință.",
+    "Cântărește-te, apoi uită-te la săptămână — o singură dimineață nu contează.",
   ],
   maintain: [
-    "Maintenance still wants a real plate. Grazing around it is what drifts the number.",
-    "Salt the water, then stop. These plates assume a cook, not a packet.",
-    "If lunch moves, move the snack with it. The day still adds up.",
-    "Repeating a plate you liked is allowed. Swap only when you are bored.",
-    "A walk after dinner is not in the math. It still belongs to the day.",
+    "Menținerea încă vrea o farfurie reală. Să mănânci pe ici pe colo o face să se deranjeze numărul.",
+    "Sarea apa, apoi oprește. Aceste farfurii presupun un bucătar, nu un pachet.",
+    "Dacă prânzul se mută, mută și gustarea. Ziua tot se adună.",
+    "Repetarea unei farfurii care ți-a plăcut este permisă. Schimbă doar când te plictisești.",
+    "O plimbare după cină nu este în calcule. Totuși aparține zilei.",
   ],
   gain: [
-    "The surplus is a second helping of the plate, not a separate dessert habit.",
-    "If a plate looks large, that is the point this week. Split it if you need to, and finish it.",
-    "Protein is there so the extra food has somewhere to go.",
-    "Train, then eat the plate you already planned. Don't invent a third meal in the kitchen.",
-    "Sleep is the other half of building. The menu cannot do that part.",
+    "Supralul este o a doua porție din farfurie, nu un obicei separat de desert.",
+    "Dacă o farfurie pare mare, acesta este punctul săptămânii. Împarte-o dacă trebuie și termin-o.",
+    "Proteinele sunt acolo ca să aibă unde să meargă mâncarea în plus.",
+    "Antrenează-te, apoi mănâncă farfuria pe care ai planificat-o. Nu inventa a treia masă în bucătărie.",
+    "Somnul este cealaltă jumătate a creșterii. Meniul nu poate face asta.",
   ],
 };
 
