@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face {
+    font-family: "Linden Serif";
+    src: url("file:///usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Linden Italic";
+    src: url("file:///usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf") format("truetype");
+    font-weight: 400;
+    font-style: italic;
+  }
+  html, body {
+    margin: 0;
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    background: #141611;
+  }
+  svg { display: block; }
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="46%" r="68%">
+      <stop offset="0%" stop-color="#23281e"/>
+      <stop offset="62%" stop-color="#181b14"/>
+      <stop offset="100%" stop-color="#141611"/>
+    </radialGradient>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" result="n"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.22"/>
+      </feComponentTransfer>
+    </filter>
+    <linearGradient id="napkin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F7F1E7"/>
+      <stop offset="100%" stop-color="#E4D3C2"/>
+    </linearGradient>
+    <symbol id="leaf" viewBox="0 0 200 280">
+      <path fill="#C5D86D" d="
+        M100 8
+        C114 30 132 42 146 58
+        C162 76 174 94 176 116
+        C178 136 168 150 174 168
+        C180 188 170 204 158 220
+        C146 236 132 248 118 258
+        C110 264 104 270 100 278
+        C96 270 90 264 82 258
+        C68 248 54 236 42 220
+        C30 204 20 188 26 168
+        C32 150 22 136 24 116
+        C26 94 38 76 54 58
+        C68 42 86 30 100 8 Z"/>
+      <path d="M100 36 C99 90 100 150 101 248" fill="none" stroke="#2a3320" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M100 78 C78 92 58 100 40 108" fill="none" stroke="#2a3320" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M100 112 C74 128 52 140 34 154" fill="none" stroke="#2a3320" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M100 148 C76 164 56 176 42 188" fill="none" stroke="#2a3320" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M100 184 C80 196 64 206 52 216" fill="none" stroke="#2a3320" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M100 78 C122 92 142 100 160 108" fill="none" stroke="#2a3320" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M100 112 C126 128 148 140 166 154" fill="none" stroke="#2a3320" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M100 148 C124 164 144 176 158 188" fill="none" stroke="#2a3320" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M100 184 C120 196 136 206 148 216" fill="none" stroke="#2a3320" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M100 268 C104 286 98 300 92 312" fill="none" stroke="#3d4a28" stroke-width="3" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+
+  <rect width="1200" height="630" fill="#141611"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect width="1200" height="630" filter="url(#grain)" opacity="0.45"/>
+
+  <!-- editorial frame -->
+  <rect x="32" y="28" width="1136" height="574" fill="none" stroke="#34392F" stroke-width="1"/>
+  <rect x="40" y="36" width="1120" height="558" fill="none" stroke="#34392F" stroke-width="1"/>
+
+  <!-- left: a set table, line-drawn -->
+  <g transform="translate(68, 176)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- napkin -->
+    <path d="M18 168 L78 132 L168 156 L112 206 Z" fill="url(#napkin)" stroke="none"/>
+    <path d="M36 166 L86 142 L156 160 L108 190 Z" fill="#F3EADF" stroke="none" opacity="0.55"/>
+    <!-- plate -->
+    <circle cx="118" cy="148" r="72" fill="#171b13" stroke="#E07A4C" stroke-width="5"/>
+    <circle cx="118" cy="148" r="54" stroke="#F3EADF" stroke-width="1.25" opacity="0.8"/>
+    <circle cx="118" cy="148" r="46" stroke="#34392F" stroke-width="1"/>
+    <!-- fork -->
+    <g stroke="#F3EADF" stroke-width="1.6" opacity="0.9">
+      <path d="M28 78 v78"/>
+      <path d="M20 78 v28"/>
+      <path d="M36 78 v28"/>
+      <path d="M20 106 H36"/>
+    </g>
+    <!-- knife -->
+    <g stroke="#F3EADF" stroke-width="1.6" opacity="0.9">
+      <path d="M206 78 v80"/>
+      <path d="M206 78 h8 v46 h-8"/>
+    </g>
+  </g>
+
+  <!-- right: linden leaf -->
+  <use href="#leaf" x="924" y="136" width="196" height="274"/>
+
+  <!-- lockup -->
+  <text x="600" y="292"
+        text-anchor="middle"
+        font-family="Linden Serif, Liberation Serif, Times New Roman, serif"
+        font-weight="700"
+        font-size="118"
+        letter-spacing="16"
+        fill="#F3EADF">LINDEN</text>
+  <line x1="468" y1="326" x2="560" y2="326" stroke="#C5D86D" stroke-width="1.25"/>
+  <line x1="640" y1="326" x2="732" y2="326" stroke="#C5D86D" stroke-width="1.25"/>
+  <circle cx="600" cy="326" r="3.2" fill="#E07A4C"/>
+  <text x="600" y="372"
+        text-anchor="middle"
+        font-family="Linden Italic, Liberation Serif, Times New Roman, serif"
+        font-style="italic"
+        font-size="28"
+        letter-spacing="3.2"
+        fill="#E07A4C">a kitchen journal</text>
+</svg>
+</body>
+</html>

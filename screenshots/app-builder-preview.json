@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Linden",
+      "hasCanvas": false,
+      "bodyTextLen": 24,
+      "bodyTextHash": "48c2fa38e3b1b68bb658789b7b88a0c186caa330b814ea4b9eb3b0abdb402ba8",
+      "bodyTextPrefix": "Linden Setting the table",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Linden",
+      "hasCanvas": false,
+      "bodyTextLen": 24,
+      "bodyTextHash": "48c2fa38e3b1b68bb658789b7b88a0c186caa330b814ea4b9eb3b0abdb402ba8",
+      "bodyTextPrefix": "Linden Setting the table",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}
